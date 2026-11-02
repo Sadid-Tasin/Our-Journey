@@ -14,17 +14,16 @@ const BlindBoxPage: React.FC<BlindBoxPageProps> = ({ onBack }) => {
     const [emailSent, setEmailSent] = useState(false);
     const [sendingEmail, setSendingEmail] = useState(false);
 
-    const maxPicks = 2;
+    // Ekhane maxPicks 3 kora hoyeche apnar chawa onujayi
+    const maxPicks = 3;
     const allPicked = revealed.length >= maxPicks;
 
     const handleBoxClick = async (id: number) => {
-        // Already revealed or already picked max
         if (revealed.includes(id) || allPicked) return;
 
         const newRevealed = [...revealed, id];
         setRevealed(newRevealed);
 
-        // If this was the 2nd pick, send email automatically
         if (newRevealed.length === maxPicks) {
             setSendingEmail(true);
             try {
@@ -53,12 +52,10 @@ const BlindBoxPage: React.FC<BlindBoxPageProps> = ({ onBack }) => {
         <div className="min-h-screen relative overflow-hidden bg-gradient-to-br from-slate-900 via-purple-950 to-slate-900 text-white">
             <FloatingHearts count={8} />
 
-            {/* Ambient glow orbs */}
             <div className="absolute top-10 left-1/4 w-72 h-72 bg-purple-600/20 rounded-full blur-[100px] pointer-events-none animate-pulse" />
             <div className="absolute bottom-20 right-1/4 w-96 h-96 bg-amber-500/10 rounded-full blur-[120px] pointer-events-none animate-pulse" style={{ animationDelay: '2s' }} />
 
-            <div className="relative z-10 px-4 py-8 md:py-16 max-w-4xl mx-auto">
-                {/* Back button */}
+            <div className="relative z-10 px-4 py-8 md:py-16 max-w-5xl mx-auto">
                 <motion.button
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
@@ -71,7 +68,6 @@ const BlindBoxPage: React.FC<BlindBoxPageProps> = ({ onBack }) => {
                     <span className="font-medium">Back to menu</span>
                 </motion.button>
 
-                {/* Header */}
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -91,14 +87,15 @@ const BlindBoxPage: React.FC<BlindBoxPageProps> = ({ onBack }) => {
                         Tap a box to reveal what's inside... choose wisely!
                     </p>
                     <div className="flex items-center justify-center gap-2">
-                        <div className={`w-3 h-3 rounded-full ${revealed.length >= 1 ? 'bg-amber-400 shadow-lg shadow-amber-400/50' : 'bg-white/20'} transition-all duration-500`} />
-                        <div className={`w-3 h-3 rounded-full ${revealed.length >= 2 ? 'bg-amber-400 shadow-lg shadow-amber-400/50' : 'bg-white/20'} transition-all duration-500`} />
+                        {[...Array(maxPicks)].map((_, i) => (
+                            <div key={i} className={`w-3 h-3 rounded-full ${revealed.length > i ? 'bg-amber-400 shadow-lg shadow-amber-400/50' : 'bg-white/20'} transition-all duration-500`} />
+                        ))}
                         <span className="text-purple-300/60 text-sm ml-2">{revealed.length}/{maxPicks} revealed</span>
                     </div>
                 </motion.div>
 
-                {/* Blind Boxes Grid */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+                {/* 8 boxes er jonno lg:grid-cols-4 kora hoyeche */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
                     {blindBoxes.map((box, index) => {
                         const isRevealed = revealed.includes(box.id);
                         const isLocked = allPicked && !isRevealed;
@@ -115,7 +112,6 @@ const BlindBoxPage: React.FC<BlindBoxPageProps> = ({ onBack }) => {
                             >
                                 <AnimatePresence mode="wait">
                                     {!isRevealed ? (
-                                        /* ─── MYSTERY STATE ─── */
                                         <motion.div
                                             key="mystery"
                                             initial={{ rotateY: 0 }}
@@ -123,14 +119,13 @@ const BlindBoxPage: React.FC<BlindBoxPageProps> = ({ onBack }) => {
                                             transition={{ duration: 0.3 }}
                                             whileHover={!isLocked ? { y: -8, scale: 1.04 } : {}}
                                             whileTap={!isLocked ? { scale: 0.96 } : {}}
-                                            className={`relative rounded-3xl shadow-2xl p-8 text-center overflow-hidden min-h-[220px] flex flex-col items-center justify-center
+                                            className={`relative rounded-3xl shadow-2xl p-6 text-center overflow-hidden min-h-[200px] flex flex-col items-center justify-center
                                                 ${isLocked
                                                     ? 'bg-slate-800/60 border border-slate-700/50'
                                                     : 'bg-gradient-to-br from-slate-800 via-purple-900/50 to-slate-800 border border-purple-500/20 hover:border-purple-400/40'
                                                 }
                                                 transition-all duration-500`}
                                         >
-                                            {/* Shimmer effect */}
                                             {!isLocked && (
                                                 <div className="absolute inset-0 overflow-hidden rounded-3xl">
                                                     <motion.div
@@ -141,7 +136,6 @@ const BlindBoxPage: React.FC<BlindBoxPageProps> = ({ onBack }) => {
                                                 </div>
                                             )}
 
-                                            {/* Locked overlay */}
                                             {isLocked && (
                                                 <motion.div
                                                     initial={{ opacity: 0 }}
@@ -155,7 +149,6 @@ const BlindBoxPage: React.FC<BlindBoxPageProps> = ({ onBack }) => {
                                                 </motion.div>
                                             )}
 
-                                            {/* Mystery icon */}
                                             <motion.div
                                                 animate={!isLocked ? {
                                                     scale: [1, 1.1, 1],
@@ -164,68 +157,28 @@ const BlindBoxPage: React.FC<BlindBoxPageProps> = ({ onBack }) => {
                                                 transition={{ duration: 4, repeat: Infinity }}
                                                 className="relative z-10"
                                             >
-                                                <div className="w-20 h-20 bg-gradient-to-br from-purple-500/30 to-amber-500/20 rounded-2xl flex items-center justify-center border border-white/10 shadow-inner mb-4 mx-auto">
-                                                    <FaQuestion className="text-amber-300/80 text-3xl" />
+                                                <div className="w-16 h-16 bg-gradient-to-br from-purple-500/30 to-amber-500/20 rounded-2xl flex items-center justify-center border border-white/10 shadow-inner mb-4 mx-auto">
+                                                    <FaQuestion className="text-amber-300/80 text-2xl" />
                                                 </div>
                                             </motion.div>
 
-                                            <h3 className="text-lg font-display text-purple-200/80 mb-1 relative z-10">
+                                            <h3 className="text-base font-display text-purple-200/80 mb-1 relative z-10">
                                                 {box.mysteryLabel}
                                             </h3>
-                                            <p className="text-purple-300/40 text-sm font-light relative z-10">
+                                            <p className="text-purple-300/40 text-xs font-light relative z-10">
                                                 {isLocked ? 'Not chosen' : 'Tap to reveal'}
                                             </p>
-
-                                            {/* Subtle sparkles */}
-                                            {!isLocked && (
-                                                <>
-                                                    <motion.span
-                                                        className="absolute top-4 right-4 text-amber-400/30 text-sm"
-                                                        animate={{ opacity: [0.2, 0.8, 0.2], scale: [0.8, 1.2, 0.8] }}
-                                                        transition={{ duration: 2, repeat: Infinity, delay: index * 0.3 }}
-                                                    >✦</motion.span>
-                                                    <motion.span
-                                                        className="absolute bottom-4 left-4 text-purple-400/30 text-sm"
-                                                        animate={{ opacity: [0.2, 0.6, 0.2] }}
-                                                        transition={{ duration: 3, repeat: Infinity, delay: index * 0.5 }}
-                                                    >✧</motion.span>
-                                                </>
-                                            )}
                                         </motion.div>
                                     ) : (
-                                        /* ─── REVEALED STATE ─── */
                                         <motion.div
                                             key="revealed"
                                             initial={{ rotateY: -90, opacity: 0 }}
                                             animate={{ rotateY: 0, opacity: 1 }}
                                             transition={{ duration: 0.5, type: 'spring', stiffness: 120 }}
-                                            className={`bg-gradient-to-br ${box.color} rounded-3xl shadow-2xl p-8 text-center text-white relative overflow-hidden min-h-[220px] flex flex-col items-center justify-center ring-4 ring-white/30 shadow-amber-300/20`}
+                                            className={`bg-gradient-to-br ${box.color} rounded-3xl shadow-2xl p-6 text-center text-white relative overflow-hidden min-h-[200px] flex flex-col items-center justify-center ring-2 ring-white/30 shadow-amber-300/20`}
                                         >
-                                            {/* Celebration particles */}
-                                            {[...Array(6)].map((_, i) => (
-                                                <motion.span
-                                                    key={i}
-                                                    className="absolute text-xl pointer-events-none"
-                                                    initial={{
-                                                        x: 0, y: 0,
-                                                        opacity: 1,
-                                                        scale: 0,
-                                                    }}
-                                                    animate={{
-                                                        x: (Math.random() - 0.5) * 200,
-                                                        y: (Math.random() - 0.5) * 200,
-                                                        opacity: 0,
-                                                        scale: 1,
-                                                    }}
-                                                    transition={{ duration: 1.2, delay: i * 0.08 }}
-                                                    style={{ left: '50%', top: '50%' }}
-                                                >
-                                                    {['✨', '💫', '⭐', '🌟', '💖', '🎉'][i]}
-                                                </motion.span>
-                                            ))}
-
                                             <motion.span
-                                                className="text-6xl block mb-4"
+                                                className="text-5xl block mb-3"
                                                 initial={{ scale: 0, rotate: -180 }}
                                                 animate={{ scale: 1, rotate: 0 }}
                                                 transition={{ delay: 0.2, type: 'spring', stiffness: 200 }}
@@ -234,7 +187,7 @@ const BlindBoxPage: React.FC<BlindBoxPageProps> = ({ onBack }) => {
                                             </motion.span>
 
                                             <motion.h3
-                                                className="text-2xl font-display font-bold mb-2"
+                                                className="text-xl font-display font-bold mb-2 leading-tight"
                                                 initial={{ opacity: 0, y: 10 }}
                                                 animate={{ opacity: 1, y: 0 }}
                                                 transition={{ delay: 0.4 }}
@@ -243,16 +196,13 @@ const BlindBoxPage: React.FC<BlindBoxPageProps> = ({ onBack }) => {
                                             </motion.h3>
 
                                             <motion.p
-                                                className="text-white/80 text-sm font-light"
+                                                className="text-white/90 text-xs font-medium"
                                                 initial={{ opacity: 0 }}
                                                 animate={{ opacity: 1 }}
                                                 transition={{ delay: 0.6 }}
                                             >
                                                 {box.description}
                                             </motion.p>
-
-                                            {/* Glow */}
-                                            <div className="absolute inset-0 bg-white/10 rounded-3xl" />
                                         </motion.div>
                                     )}
                                 </AnimatePresence>
@@ -261,7 +211,6 @@ const BlindBoxPage: React.FC<BlindBoxPageProps> = ({ onBack }) => {
                     })}
                 </div>
 
-                {/* Sending email indicator */}
                 <AnimatePresence>
                     {sendingEmail && (
                         <motion.div
@@ -280,14 +229,13 @@ const BlindBoxPage: React.FC<BlindBoxPageProps> = ({ onBack }) => {
                     )}
                 </AnimatePresence>
 
-                {/* Success Message */}
                 <AnimatePresence>
                     {emailSent && (
                         <motion.div
                             initial={{ opacity: 0, scale: 0.9, y: 20 }}
                             animate={{ opacity: 1, scale: 1, y: 0 }}
                             transition={{ type: 'spring', stiffness: 100 }}
-                            className="bg-white/10 backdrop-blur-xl rounded-3xl shadow-2xl border border-white/20 p-8 text-center max-w-md mx-auto"
+                            className="bg-white/10 backdrop-blur-xl rounded-3xl shadow-2xl border border-white/20 p-8 text-center max-w-xl mx-auto"
                         >
                             <motion.div
                                 animate={{ scale: [1, 1.2, 1] }}
@@ -300,7 +248,7 @@ const BlindBoxPage: React.FC<BlindBoxPageProps> = ({ onBack }) => {
                             <p className="text-purple-200/70 font-light leading-relaxed">
                                 Your choices have been sealed and sent! Get ready for your special surprises, my love 💕
                             </p>
-                            <div className="mt-6 flex justify-center gap-3">
+                            <div className="mt-6 flex flex-wrap justify-center gap-3">
                                 {revealed.map((id) => {
                                     const box = blindBoxes.find((b) => b.id === id);
                                     return (
@@ -308,7 +256,7 @@ const BlindBoxPage: React.FC<BlindBoxPageProps> = ({ onBack }) => {
                                             key={id}
                                             animate={{ y: [0, -5, 0] }}
                                             transition={{ duration: 2, repeat: Infinity, delay: id * 0.3 }}
-                                            className="bg-white/10 rounded-xl px-4 py-2 border border-white/10"
+                                            className="bg-white/10 rounded-xl px-4 py-2 border border-white/10 flex items-center"
                                         >
                                             <span className="text-xl mr-2">{box?.emoji}</span>
                                             <span className="text-amber-200 font-medium text-sm">{box?.name}</span>
