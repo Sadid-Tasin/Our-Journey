@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { FaArrowLeft, FaExpand, FaTimes, FaCrown, FaFeather, FaFolder } from 'react-icons/fa';
 import FloatingHearts from '../components/FloatingHearts';
-import { supabase } from '../../lib/supabase'; // Path thik ache kina dekhe nibe
+import { supabase } from '../lib/supabase'; // Path thik ache kina dekhe nibe
 
 interface GalleryPageProps {
     onBack: () => void;
