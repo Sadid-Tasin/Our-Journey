@@ -1,27 +1,56 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { FaArrowLeft, FaExpand, FaTimes, FaStar, FaHeart, FaCamera, FaCrown, FaFeather } from 'react-icons/fa';
+import { FaArrowLeft, FaExpand, FaTimes, FaCrown, FaFeather, FaFolder } from 'react-icons/fa';
 import FloatingHearts from '../components/FloatingHearts';
+import { supabase } from '../lib/supabase'; // Path thik ache kina dekhe nibe
 
 interface GalleryPageProps {
     onBack: () => void;
 }
 
-// Romantic gallery images with enhanced emotional captions
-const galleryImages = [
-    { id: 1, caption: 'Our first adventure together 💕', color: 'from-rose-300 to-pink-400', emoji: '💕', special: true },
-    { id: 2, caption: 'That sunset we never forgot 🌅', color: 'from-amber-300 to-orange-400', emoji: '🌅', special: false },
-    { id: 3, caption: 'Laughing at nothing and everything 😂', color: 'from-pink-400 to-rose-500', emoji: '😂', special: false },
-    { id: 4, caption: 'My favorite view — you 💖', color: 'from-purple-300 to-violet-400', emoji: '💖', special: true },
-    { id: 5, caption: 'Our cozy rainy day ☔', color: 'from-blue-300 to-indigo-400', emoji: '☕', special: false },
-    { id: 6, caption: 'The day you made my heart stop 💗', color: 'from-rose-400 to-red-500', emoji: '💗', special: true },
-    { id: 7, caption: 'When we danced in the kitchen 💃', color: 'from-pink-300 to-rose-400', emoji: '💃', special: false },
-    { id: 8, caption: 'Forever my favorite person 🥰', color: 'from-purple-400 to-fuchsia-500', emoji: '🥰', special: true },
-    { id: 9, caption: 'Our little secret spot 🌿', color: 'from-emerald-300 to-teal-400', emoji: '🌿', special: false },
-];
+// Supabase-e banano 5'ta folder-er hoboho nam ekhane dibe
+const FOLDERS = ['nature', 'events', 'portraits', 'travel', 'random'];
 
 const GalleryPage: React.FC<GalleryPageProps> = ({ onBack }) => {
-    const [selectedImage, setSelectedImage] = useState<number | null>(null);
+    const [activeFolder, setActiveFolder] = useState<string>(FOLDERS[0]);
+    const [images, setImages] = useState<string[]>([]);
+    const [loading, setLoading] = useState<boolean>(true);
+    const [selectedImage, setSelectedImage] = useState<string | null>(null);
+
+    // Supabase theke active folder-er chobi fetch kora
+    useEffect(() => {
+        async function fetchImages() {
+            setLoading(true);
+            const { data, error } = await supabase
+                .storage
+                .from('gallery-images') // Tomar bucket name
+                .list(activeFolder, {
+                    limit: 200,
+                    sortBy: { column: 'name', order: 'asc' },
+                });
+
+            if (error) {
+                console.error('Error fetching images:', error);
+                setImages([]);
+            } else if (data) {
+                // Placeholder bad deya
+                const validFiles = data.filter(file => file.name !== '.emptyFolderPlaceholder');
+                
+                // Public URL generate kora
+                const urls = validFiles.map(file => {
+                    const { data: publicUrlData } = supabase
+                        .storage
+                        .from('gallery-images')
+                        .getPublicUrl(`${activeFolder}/${file.name}`);
+                    return publicUrlData.publicUrl;
+                });
+                setImages(urls);
+            }
+            setLoading(false);
+        }
+
+        fetchImages();
+    }, [activeFolder]);
 
     return (
         <div className="min-h-screen relative overflow-hidden bg-gradient-to-br from-pink-50 via-rose-50 to-purple-50">
@@ -49,11 +78,9 @@ const GalleryPage: React.FC<GalleryPageProps> = ({ onBack }) => {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.2 }}
-                    className="text-center mb-12"
+                    className="text-center mb-8"
                 >
-                    <motion.div
-                        className="relative mb-6"
-                    >
+                    <motion.div className="relative mb-6">
                         <motion.div
                             animate={{ rotate: [0, 15, -15, 0], scale: [1, 1.1, 1] }}
                             transition={{ duration: 4, repeat: Infinity }}
@@ -83,72 +110,75 @@ const GalleryPage: React.FC<GalleryPageProps> = ({ onBack }) => {
                             <FaFeather className="text-rose-300 text-xl" />
                         </motion.div>
                     </div>
-                    <div className="flex justify-center gap-2">
-                        {Array.from({ length: 7 }).map((_, i) => (
-                            <motion.div
-                                key={i}
-                                animate={{ y: [0, -10, 0], scale: [1, 1.2, 1] }}
-                                transition={{ duration: 2, repeat: Infinity, delay: i * 0.2 }}
-                                className="text-rose-200 text-lg"
-                            >
-                                {i % 2 === 0 ? '💖' : '💗'}
-                            </motion.div>
-                        ))}
-                    </div>
                 </motion.div>
 
-                {/* Enhanced Gallery Grid with Romantic Effects */}
-                <div className="relative">
-                    {/* Decorative floating elements around gallery */}
-                    <div className="absolute -top-8 -left-8 text-5xl opacity-10">🌸</div>
-                    <div className="absolute -top-4 -right-6 text-4xl opacity-10">🌹</div>
-                    <div className="absolute -bottom-8 -left-6 text-5xl opacity-10">🌺</div>
-                    <div className="absolute -bottom-4 -right-8 text-4xl opacity-10">🌷</div>
-                    
-                    <div className="grid grid-cols-2 md:grid-cols-3 gap-5 md:gap-7 relative z-10">
-                    {galleryImages.map((img, index) => (
-                        <motion.div
-                            key={img.id}
-                            initial={{ opacity: 0, scale: 0.8 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            transition={{ delay: 0.3 + index * 0.1 }}
-                            whileHover={{ y: -5, scale: 1.03 }}
-                            onClick={() => setSelectedImage(img.id)}
-                            className="group cursor-pointer relative"
+                {/* 5 Folder Tabs Navigation */}
+                <div className="flex flex-wrap justify-center gap-3 mb-10 relative z-10">
+                    {FOLDERS.map((folder) => (
+                        <button
+                            key={folder}
+                            onClick={() => setActiveFolder(folder)}
+                            className={`flex items-center gap-2 px-5 py-2.5 rounded-full font-medium text-sm transition-all shadow-sm ${
+                                activeFolder === folder
+                                    ? 'bg-rose-500 text-white shadow-rose-300 scale-105'
+                                    : 'bg-white/80 text-rose-700 hover:bg-rose-100 backdrop-blur-sm'
+                            }`}
                         >
-                            <div className={`aspect-square bg-gradient-to-br ${img.color} rounded-2xl shadow-lg overflow-hidden relative group-hover:shadow-2xl transition-all duration-300`}>
-                                {/* Placeholder image - gradient with heart */}
-                                <div className="absolute inset-0 flex flex-col items-center justify-center text-white/80">
-                                    <motion.span
-                                        className="text-4xl md:text-5xl mb-2"
-                                        animate={{ scale: [1, 1.1, 1] }}
-                                        transition={{ duration: 3, repeat: Infinity, delay: index * 0.2 }}
-                                    >
-                                        {['💕', '💖', '💗', '💝', '💞', '💘', '🥰', '😍', '💑'][index]}
-                                    </motion.span>
-                                    <p className="text-xs md:text-sm text-center px-3 font-light opacity-80">
-                                        Add your photo here
-                                    </p>
-                                </div>
-
-                                {/* Hover overlay */}
-                                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 flex items-end">
-                                    <div className="w-full p-3 bg-gradient-to-t from-black/50 to-transparent translate-y-full group-hover:translate-y-0 transition-transform duration-300">
-                                        <p className="text-white text-xs md:text-sm font-light">{img.caption}</p>
-                                    </div>
-                                </div>
-
-                                {/* Expand icon */}
-                                <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity">
-                                    <FaExpand className="text-white text-sm" />
-                                </div>
-                            </div>
-                        </motion.div>
+                            <FaFolder className={activeFolder === folder ? 'text-white' : 'text-rose-400'} />
+                            <span className="capitalize">{folder}</span>
+                        </button>
                     ))}
-                    </div>
                 </div>
 
-                {/* Lightbox */}
+                {/* Loading State */}
+                {loading && (
+                    <div className="text-center py-20">
+                        <p className="text-rose-400 animate-pulse font-medium text-lg">Loading memory photos...</p>
+                    </div>
+                )}
+
+                {/* Enhanced Gallery Grid with Supabase Real Images */}
+                {!loading && (
+                    <div className="relative">
+                        <div className="grid grid-cols-2 md:grid-cols-3 gap-5 md:gap-7 relative z-10">
+                            {images.map((url, index) => (
+                                <motion.div
+                                    key={index}
+                                    initial={{ opacity: 0, scale: 0.8 }}
+                                    animate={{ opacity: 1, scale: 1 }}
+                                    transition={{ delay: index * 0.05 }}
+                                    whileHover={{ y: -5, scale: 1.03 }}
+                                    onClick={() => setSelectedImage(url)}
+                                    className="group cursor-pointer relative"
+                                >
+                                    <div className="aspect-square bg-rose-100 rounded-2xl shadow-lg overflow-hidden relative group-hover:shadow-2xl transition-all duration-300 border-2 border-white/60">
+                                        <img
+                                            src={url}
+                                            alt={`${activeFolder}_${index}`}
+                                            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                                            loading="lazy"
+                                        />
+
+                                        {/* Hover overlay */}
+                                        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors duration-300 flex items-center justify-center">
+                                            <div className="opacity-0 group-hover:opacity-100 transition-opacity p-3 bg-white/20 backdrop-blur-md rounded-full text-white">
+                                                <FaExpand className="text-xl" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </motion.div>
+                            ))}
+                        </div>
+
+                        {images.length === 0 && (
+                            <div className="text-center py-16 bg-white/40 rounded-3xl backdrop-blur-sm border border-rose-100">
+                                <p className="text-rose-400 text-lg">No photos found in this folder yet!</p>
+                            </div>
+                        )}
+                    </div>
+                )}
+
+                {/* Lightbox Modal for Full View */}
                 {selectedImage && (
                     <motion.div
                         initial={{ opacity: 0 }}
@@ -161,23 +191,21 @@ const GalleryPage: React.FC<GalleryPageProps> = ({ onBack }) => {
                             initial={{ scale: 0.8, opacity: 0 }}
                             animate={{ scale: 1, opacity: 1 }}
                             transition={{ type: "spring", damping: 20 }}
-                            className="max-w-2xl w-full"
+                            className="max-w-4xl w-full relative"
                             onClick={(e) => e.stopPropagation()}
                         >
-                            <div className={`aspect-video bg-gradient-to-br ${galleryImages.find(i => i.id === selectedImage)?.color} rounded-3xl shadow-2xl flex flex-col items-center justify-center text-white relative`}>
-                                <button
-                                    onClick={() => setSelectedImage(null)}
-                                    className="absolute top-4 right-4 w-10 h-10 bg-white/20 rounded-full flex items-center justify-center hover:bg-white/40 transition-colors"
-                                >
-                                    <FaTimes />
-                                </button>
-                                <span className="text-6xl mb-4">
-                                    {['💕', '💖', '💗', '💝', '💞', '💘', '🥰', '😍', '💑'][selectedImage - 1]}
-                                </span>
-                                <p className="text-xl font-handwriting px-6 text-center">
-                                    {galleryImages.find(i => i.id === selectedImage)?.caption}
-                                </p>
-                                <p className="text-sm mt-3 opacity-60">Replace with your real photos!</p>
+                            <button
+                                onClick={() => setSelectedImage(null)}
+                                className="absolute -top-12 right-0 text-white hover:text-rose-300 text-2xl transition-colors"
+                            >
+                                <FaTimes />
+                            </button>
+                            <div className="bg-black/40 rounded-2xl overflow-hidden shadow-2xl p-2 border border-white/20">
+                                <img
+                                    src={selectedImage}
+                                    alt="Selected view"
+                                    className="max-h-[80vh] w-auto mx-auto object-contain rounded-xl"
+                                />
                             </div>
                         </motion.div>
                     </motion.div>
