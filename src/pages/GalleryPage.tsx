@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import {
     FaArrowLeft,
     FaExpand,
@@ -10,6 +10,10 @@ import {
     FaPlus,
     FaLock,
     FaSignOutAlt,
+    FaChevronLeft,
+    FaChevronRight,
+    FaPlay,
+    FaPause,
 } from 'react-icons/fa';
 import FloatingHearts from '../components/FloatingHearts';
 import { supabase } from '../lib/supabase';
@@ -19,6 +23,7 @@ interface GalleryPageProps {
 }
 
 const BUCKET = 'Gallery of memories';
+const SLIDE_INTERVAL_MS = 3000; // autoplay e koto second por pic bodlabe
 
 // Supabase-er asol 5 ta folder-er nam
 const FOLDERS = [
@@ -33,7 +38,11 @@ const GalleryPage: React.FC<GalleryPageProps> = ({ onBack }) => {
     const [activeFolder, setActiveFolder] = useState<string>(FOLDERS[0]);
     const [images, setImages] = useState<string[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
-    const [selectedImage, setSelectedImage] = useState<string | null>(null);
+
+    // ---- Slideshow state ----
+    const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
+    const [isPlaying, setIsPlaying] = useState<boolean>(false);
+    const touchStartX = useRef<number | null>(null);
 
     // ---- Upload / login related state ----
     const [session, setSession] = useState<any>(null);
@@ -89,7 +98,73 @@ const GalleryPage: React.FC<GalleryPageProps> = ({ onBack }) => {
         fetchImages();
     }, [activeFolder, refreshKey]);
 
-    // Admin login
+    // ---------- Slideshow controls ----------
+    const closeViewer = useCallback(() => {
+        setSelectedIndex(null);
+        setIsPlaying(false);
+    }, []);
+
+    const showNext = useCallback(() => {
+        setSelectedIndex((i) => (i === null || images.length === 0 ? null : (i + 1) % images.length));
+    }, [images.length]);
+
+    const showPrev = useCallback(() => {
+        setSelectedIndex((i) =>
+            i === null || images.length === 0 ? null : (i - 1 + images.length) % images.length
+        );
+    }, [images.length]);
+
+    const startSlideshow = () => {
+        if (images.length === 0) return;
+        setSelectedIndex(0);
+        setIsPlaying(true);
+    };
+
+    // Autoplay
+    useEffect(() => {
+        if (!isPlaying || selectedIndex === null || images.length < 2) return;
+        const timer = setInterval(showNext, SLIDE_INTERVAL_MS);
+        return () => clearInterval(timer);
+    }, [isPlaying, selectedIndex, images.length, showNext]);
+
+    // Pore ashbe emon pic ta age theke load kore rakha (smooth transition er jonno)
+    useEffect(() => {
+        if (selectedIndex === null || images.length < 2) return;
+        const preload = new Image();
+        preload.src = images[(selectedIndex + 1) % images.length];
+    }, [selectedIndex, images]);
+
+    // Keyboard: <- -> Space Esc
+    useEffect(() => {
+        if (selectedIndex === null) return;
+        const onKey = (e: KeyboardEvent) => {
+            if (e.key === 'ArrowRight') showNext();
+            else if (e.key === 'ArrowLeft') showPrev();
+            else if (e.key === 'Escape') closeViewer();
+            else if (e.key === ' ') {
+                e.preventDefault();
+                setIsPlaying((p) => !p);
+            }
+        };
+        window.addEventListener('keydown', onKey);
+        return () => window.removeEventListener('keydown', onKey);
+    }, [selectedIndex, showNext, showPrev, closeViewer]);
+
+    // Phone swipe
+    const onTouchStart = (e: React.TouchEvent) => {
+        touchStartX.current = e.touches[0].clientX;
+    };
+    const onTouchEnd = (e: React.TouchEvent) => {
+        if (touchStartX.current === null) return;
+        const diff = e.changedTouches[0].clientX - touchStartX.current;
+        if (Math.abs(diff) > 50) {
+            if (diff < 0) showNext();
+            else showPrev();
+        }
+        touchStartX.current = null;
+    };
+
+    // ---------- Admin login ----------
     const handleLogin = async () => {
         const { error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) {
@@ -100,7 +175,7 @@ const GalleryPage: React.FC<GalleryPageProps> = ({ onBack }) => {
         }
     };
 
-    // Photo upload
+    // ---------- Photo upload ----------
     const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
         const files = e.target.files;
         if (!files || files.length === 0) return;
@@ -126,6 +201,8 @@ const GalleryPage: React.FC<GalleryPageProps> = ({ onBack }) => {
         setRefreshKey((k) => k + 1); // gallery auto refresh
         e.target.value = '';
     };
+
+    const currentImage = selectedIndex !== null ? images[selectedIndex] : null;
 
     return (
         <div className="min-h-screen relative overflow-hidden bg-gradient-to-br from-pink-50 via-rose-50 to-purple-50">
@@ -205,10 +282,22 @@ const GalleryPage: React.FC<GalleryPageProps> = ({ onBack }) => {
                     ))}
                 </div>
 
-                {/* Admin area: lock icon (logged out) / upload button (logged in) */}
-                <div className="flex justify-center mb-8 relative z-10">
+                {/* Action row: slideshow + admin */}
+                <div className="flex flex-wrap items-center justify-center gap-3 mb-8 relative z-10">
+                    {/* Slideshow button (shobai dekhbe) */}
+                    {!loading && images.length > 0 && (
+                        <button
+                            onClick={startSlideshow}
+                            className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-white/90 text-rose-600 text-sm font-medium hover:bg-rose-100 transition-colors shadow-md border border-rose-100"
+                        >
+                            <FaPlay className="text-xs" />
+                            <span>Play slideshow</span>
+                        </button>
+                    )}
+
+                    {/* Admin area: lock icon (logged out) / upload button (logged in) */}
                     {session ? (
-                        <div className="flex items-center gap-3">
+                        <>
                             <label className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-rose-500 text-white text-sm font-medium cursor-pointer hover:bg-rose-600 transition-colors shadow-md">
                                 <FaPlus />
                                 <span>{uploading ? 'Uploading...' : `Add photos to "${activeFolder}"`}</span>
@@ -228,7 +317,7 @@ const GalleryPage: React.FC<GalleryPageProps> = ({ onBack }) => {
                             >
                                 <FaSignOutAlt />
                             </button>
-                        </div>
+                        </>
                     ) : (
                         <button
                             onClick={() => setShowLogin(true)}
@@ -282,7 +371,7 @@ const GalleryPage: React.FC<GalleryPageProps> = ({ onBack }) => {
                     </div>
                 )}
 
-                {/* Enhanced Gallery Grid with Supabase Real Images */}
+                {/* Gallery Grid */}
                 {!loading && (
                     <div className="relative">
                         <div className="grid grid-cols-2 md:grid-cols-3 gap-5 md:gap-7 relative z-10">
@@ -293,7 +382,10 @@ const GalleryPage: React.FC<GalleryPageProps> = ({ onBack }) => {
                                     animate={{ opacity: 1, scale: 1 }}
                                     transition={{ delay: index * 0.05 }}
                                     whileHover={{ y: -5, scale: 1.03 }}
-                                    onClick={() => setSelectedImage(url)}
+                                    onClick={() => {
+                                        setSelectedIndex(index);
+                                        setIsPlaying(false);
+                                    }}
                                     className="group cursor-pointer relative"
                                 >
                                     <div className="aspect-square bg-rose-100 rounded-2xl shadow-lg overflow-hidden relative group-hover:shadow-2xl transition-all duration-300 border-2 border-white/60">
@@ -323,40 +415,102 @@ const GalleryPage: React.FC<GalleryPageProps> = ({ onBack }) => {
                         )}
                     </div>
                 )}
+            </div>
 
-                {/* Lightbox Modal for Full View */}
-                {selectedImage && (
-                    <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4"
-                        onClick={() => setSelectedImage(null)}
+            {/* Slideshow viewer */}
+            {currentImage && (
+                <div
+                    className="fixed inset-0 z-50 bg-black/90 backdrop-blur-sm flex items-center justify-center"
+                    onClick={closeViewer}
+                    onTouchStart={onTouchStart}
+                    onTouchEnd={onTouchEnd}
+                >
+                    {/* Top bar: counter + play/pause + close */}
+                    <div
+                        className="absolute top-0 inset-x-0 flex items-center justify-between px-4 py-4 text-white z-10"
+                        onClick={(e) => e.stopPropagation()}
                     >
-                        <motion.div
-                            initial={{ scale: 0.8, opacity: 0 }}
-                            animate={{ scale: 1, opacity: 1 }}
-                            transition={{ type: "spring", damping: 20 }}
-                            className="max-w-4xl w-full relative"
-                            onClick={(e) => e.stopPropagation()}
-                        >
+                        <span className="text-sm font-medium bg-white/10 rounded-full px-3 py-1">
+                            {(selectedIndex ?? 0) + 1} / {images.length}
+                        </span>
+                        <div className="flex items-center gap-3">
+                            {images.length > 1 && (
+                                <button
+                                    onClick={() => setIsPlaying((p) => !p)}
+                                    className="p-3 rounded-full bg-white/10 hover:bg-white/20 transition-colors"
+                                    title={isPlaying ? 'Pause' : 'Play'}
+                                >
+                                    {isPlaying ? <FaPause /> : <FaPlay />}
+                                </button>
+                            )}
                             <button
-                                onClick={() => setSelectedImage(null)}
-                                className="absolute -top-12 right-0 text-white hover:text-rose-300 text-2xl transition-colors"
+                                onClick={closeViewer}
+                                className="p-3 rounded-full bg-white/10 hover:bg-white/20 transition-colors"
+                                title="Close"
                             >
                                 <FaTimes />
                             </button>
-                            <div className="bg-black/40 rounded-2xl overflow-hidden shadow-2xl p-2 border border-white/20">
-                                <img
-                                    src={selectedImage}
-                                    alt="Selected view"
-                                    className="max-h-[80vh] w-auto mx-auto object-contain rounded-xl"
-                                />
-                            </div>
-                        </motion.div>
-                    </motion.div>
-                )}
-            </div>
+                        </div>
+                    </div>
+
+                    {/* Prev arrow */}
+                    {images.length > 1 && (
+                        <button
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                showPrev();
+                            }}
+                            className="absolute left-2 md:left-6 top-1/2 -translate-y-1/2 p-3 md:p-4 rounded-full bg-white/10 hover:bg-white/25 text-white transition-colors z-10"
+                            title="Previous"
+                        >
+                            <FaChevronLeft />
+                        </button>
+                    )}
+
+                    {/* Image with crossfade */}
+                    <div className="w-full h-full flex items-center justify-center px-4 md:px-20 py-20">
+                        <AnimatePresence mode="wait">
+                            <motion.img
+                                key={currentImage}
+                                src={currentImage}
+                                alt="Memory"
+                                initial={{ opacity: 0, scale: 0.97 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                exit={{ opacity: 0, scale: 1.02 }}
+                                transition={{ duration: 0.35 }}
+                                className="max-h-full max-w-full object-contain rounded-xl shadow-2xl select-none"
+                                onClick={(e) => e.stopPropagation()}
+                                draggable={false}
+                            />
+                        </AnimatePresence>
+                    </div>
+
+                    {/* Next arrow */}
+                    {images.length > 1 && (
+                        <button
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                showNext();
+                            }}
+                            className="absolute right-2 md:right-6 top-1/2 -translate-y-1/2 p-3 md:p-4 rounded-full bg-white/10 hover:bg-white/25 text-white transition-colors z-10"
+                            title="Next"
+                        >
+                            <FaChevronRight />
+                        </button>
+                    )}
+
+                    {/* Autoplay progress bar */}
+                    {isPlaying && images.length > 1 && (
+                        <motion.div
+                            key={`progress-${selectedIndex}`}
+                            className="absolute bottom-0 left-0 h-1 bg-rose-400"
+                            initial={{ width: '0%' }}
+                            animate={{ width: '100%' }}
+                            transition={{ duration: SLIDE_INTERVAL_MS / 1000, ease: 'linear' }}
+                        />
+                    )}
+                </div>
+            )}
         </div>
     );
 };
