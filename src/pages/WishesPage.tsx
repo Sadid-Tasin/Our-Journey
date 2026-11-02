@@ -1,14 +1,62 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FaArrowLeft, FaStar, FaPaperPlane, FaMagic } from 'react-icons/fa';
-import { wishes as initialWishes } from '../data/content';
+
+// Adding the new wishes directly into the component's initial state
+const enhancedWishes = [
+    {
+        id: 'new-1',
+        wish: "In Sha Allah, one day we will hold hands and visit the House of Allah together to perform Hajj. This is my biggest wish for us.",
+        emoji: "🕋",
+    },
+    {
+        id: 'new-2',
+        wish: "I wish for a beautiful, cute little princess in our small family. She will be exactly as gorgeous and sweet as you, but with a little bit of my naughtiness to annoy you!",
+        emoji: "👨‍👩‍👧",
+    },
+    {
+        id: 'new-3',
+        wish: "We will fulfill all our little dreams together, step by step, and collect every single drop of happiness along the way.",
+        emoji: "🌈",
+    },
+    {
+        id: 1,
+        wish: "I wish we could travel the world together, collecting memories in every city",
+        emoji: "✈️",
+    },
+    {
+        id: 2,
+        wish: "I wish for more lazy mornings with you, where time stands still",
+        emoji: "☀️",
+    },
+    {
+        id: 3,
+        wish: "I wish to grow old with you, holding hands on a porch somewhere peaceful",
+        emoji: "🏡",
+    },
+    {
+        id: 4,
+        wish: "I wish you could see yourself through my eyes — you'd understand why I'm so in love",
+        emoji: "👀",
+    },
+    {
+        id: 5,
+        wish: "I wish for a lifetime of your laughter, your warmth, and your love",
+        emoji: "💫",
+    },
+    {
+        id: 6,
+        wish: "I wish to be the reason you smile every single day",
+        emoji: "😊",
+    },
+];
 
 interface WishesPageProps {
     onBack: () => void;
 }
 
 const WishesPage: React.FC<WishesPageProps> = ({ onBack }) => {
-    const [wishes, setWishes] = useState(initialWishes);
+    const [wishes, setWishes] = useState(enhancedWishes);
     const [newWish, setNewWish] = useState('');
     const [isWishing, setIsWishing] = useState(false);
     const [backgroundStars, setBackgroundStars] = useState<{ id: number; left: string; top: string; size: number; duration: number; delay: number }[]>([]);
@@ -34,7 +82,7 @@ const WishesPage: React.FC<WishesPageProps> = ({ onBack }) => {
         // Simulate sending wish to the stars
         setTimeout(() => {
             const wishObj = {
-                id: Date.now(),
+                id: Date.now().toString(),
                 wish: newWish,
                 emoji: "✨" // Generic sparkle for user wishes
             };
