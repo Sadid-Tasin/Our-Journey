@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FaHeart, FaArrowRight, FaFeatherAlt } from 'react-icons/fa';
+import { FaHeart, FaArrowRight, FaFeatherAlt, FaLanguage } from 'react-icons/fa';
 import FloatingHearts from '../components/FloatingHearts';
 
 interface WelcomePageProps {
@@ -57,12 +57,12 @@ const WelcomePage: React.FC<WelcomePageProps> = ({ onContinue }) => {
     ];
 
     const banglaContent = [
-        `তোমাকে যখন প্রথম দেখেছিলাম হয়তো চিনতাম না, না জানতাম ভবিষ্যতে এ কি হতে যাচ্ছে। কিন্তু কিছ সময় পর এইটুকু জানতে পেরেছিলাম তুমি সবার মতো না, You are some special। যে মানুষ কিনা কারোর সাথে কোথা বলে না, কারোর সাথে মিশে না, সবার থেকে আলাদা থাকে জাস্ট নিজের দুনিয়ায়, কেউ তার সাথে কোথা বলার সাহস টাও পায় না।`,
-        `তখন মনে হচ্ছিল হয়তো এত বছর ধরে যেই মানুষটাকে খুঁজে এসেছি আমার মনের মতো হয়তো সেই মানুষটাকে পেয়ে গেছি। প্রথমে কিভাবে কোথা বলবো এই সাহস বা উপায় কোনোটাই পাইনি। বাসায় গিয়ে তোমার সব তথ্য খুঁজে বের করি। এরপর ২ দিন পর সাহস করে কথা বলি টাও শুধু নাম। 🤦🏻`,
-        `এরপর হয়তো পরীক্ষা এর পর অনেকদিন দেখা হয়নি। কিন্তু কিছোদিন পর আবার খুঁজে পাই জাফর স্যার এর ঐখানে, এরপর প্রথমবারসোমার সামনে এমনভাবে ডাকছিলাম যে সবাই জাস্ট তাকিয়ে ছিলো। এরপর ১ সপ্তাহ আর তোমাকে পাওয়া গেলনা, এর জন্য পরবর্তী দিন তুমি প্রথমার আমাকে তুমার FB 🆔 দিলে। আর আমি? বাসায় গিয়ে সুন্দরভাবে সব ভুলে গেলাম! 😂`,
-        `তার ঠিক কিছু দিন পর তুমার সাথে আবার দেখা এর পর তুমি আমাকে জিজ্ঞাসা করলে যে আমি কেন তুমাকে ফ্রেন্ড রিকোয়েস্ট পাঠাইনি। আমি সাথে সাথে ১ তা অজুহাত দিলাম যে 🆔 খুঁজে পাইনি, কিন্তু সত্যটি ছিলো আমি এতই ভুলো মন যে আর সার্চ এই করিনি। এর পর আপনার সরাসরি অর্ডার হলো যে যাও এখনি তুমার মোবাইল নিয়ে আসো, এবং যেই বলা সেই কাজ,আমিও সুন্দরভাবে ১ দৌড় এ মোবাইল নিয়ে আসলাম এবং তুমি নিজের আইডি খুঁজে অ্যাড দিয়ে রাখলে।`,
+        `তোমাকে যখন প্রথম দেখেছিলাম হয়তো চিনতাম না, না জানতাম ভবিষ্যতে এ কি হতে যাচ্ছে। কিন্তু কিছু সময় পর এইটুকু জানতে পেরেছিলাম তুমি সবার মতো না, You are some special। যে মানুষ কিনা কারোর সাথে কথা বলে না, কারোর সাথে মিশে না, সবার থেকে আলাদা থাকে জাস্ট নিজের দুনিয়ায়, কেউ তার সাথে কথা বলার সাহস টাও পায় না।`,
+        `তখন মনে হচ্ছিল হয়তো এত বছর ধরে যেই মানুষটাকে খুঁজে এসেছি আমার মনের মতো হয়তো সেই মানুষটাকে পেয়ে গেছি। প্রথমে কিভাবে কথা বলবো এই সাহস বা উপায় কোনোটাই পাইনি। বাসায় গিয়ে তোমার সব তথ্য খুঁজে বের করি। এরপর ২ দিন পর সাহস করে কথা বলি তাও শুধু নাম। 🤦🏻`,
+        `এরপর হয়তো পরীক্ষার পর অনেকদিন দেখা হয়নি। কিন্তু কিছুদিন পর আবার খুঁজে পাই জাফর স্যার এর ঐখানে, এরপর প্রথমবার সবার সামনে এমনভাবে ডাকছিলাম যে সবাই জাস্ট তাকিয়ে ছিলো। এরপর ১ সপ্তাহ আর তোমাকে পাওয়া গেল না, এর জন্য পরবর্তী দিন তুমি প্রথমবার আমাকে তোমার FB 🆔 দিলে। আর আমি? বাসায় গিয়ে সুন্দরভাবে সব ভুলে গেলাম! 😂`,
+        `তার ঠিক কিছু দিন পর তোমার সাথে আবার দেখা, এরপর তুমি আমাকে জিজ্ঞাসা করলে যে আমি কেন তোমাকে ফ্রেন্ড রিকোয়েস্ট পাঠাইনি। আমি সাথে সাথে একটা অজুহাত দিলাম যে 🆔 খুঁজে পাইনি, কিন্তু সত্যটি ছিলো আমি এতই ভুলো মন যে আর সার্চই করিনি। এরপর তোমার সরাসরি অর্ডার হলো যে "যাও এক্ষুনি তোমার মোবাইল নিয়ে আসো", এবং যেই বলা সেই কাজ, আমিও সুন্দরভাবে এক দৌড়ে মোবাইল নিয়ে আসলাম এবং তুমি নিজের আইডি খুঁজে অ্যাড দিয়ে রাখলে।`,
         `এরপরও কিন্তু আমি তোমাকে কোনো Message দিইনি!`,
-        `হটাৎ ১ দিন রাত এ ১ টা Message আসে যে-`,
+        `হঠাৎ ১ দিন রাতে একটা Message আসে যে-`,
         `"Ar poiren na"`,
         `এই ছোট্ট একটা Message থেকেই শুরু হয়েছিল আমাদের একসঙ্গে পথচলা। ধীরে ধীরে অচেনা দুজন মানুষ একে অপরের গল্পের অংশ হয়ে উঠলাম।`,
         `হয়তো সেদিন আমরা কেউই জানতাম না, এই ছোট্ট কথোপকথন একদিন এত সুন্দর একটা গল্পের শুরু হয়ে থাকবে।`,
@@ -74,6 +74,17 @@ const WelcomePage: React.FC<WelcomePageProps> = ({ onContinue }) => {
 
     return (
         <div className="min-h-screen flex items-center justify-center relative overflow-hidden bg-gradient-to-br from-love-50 via-rose-50 to-love-100 p-4 perspective-1000">
+            {/* স্টাইলিশ বাংলা ফন্টের জন্য গুগল ফন্ট ইমপোর্ট */}
+            <style>
+                {`
+                    @import url('https://fonts.googleapis.com/css2?family=Tiro+Bangla:ital@0;1&display=swap');
+                    .bangla-font {
+                        font-family: 'Tiro Bangla', serif;
+                        line-height: 2.2 !important;
+                    }
+                `}
+            </style>
+
             <FloatingHearts count={18} />
 
             <AnimatePresence>
@@ -153,19 +164,21 @@ const WelcomePage: React.FC<WelcomePageProps> = ({ onContinue }) => {
                                         transition={{ delay: 1 }}
                                         className="flex justify-between items-center mb-6 pb-2 border-b border-rose-100"
                                     >
-                                        <h2 className="text-3xl text-rose-600 font-bold font-handwriting">
+                                        <h2 className={`text-3xl text-rose-600 font-bold ${isBangla ? 'bangla-font' : 'font-handwriting'}`}>
                                             {isBangla ? "প্রিয় মহারাণী," : "My Dearest Love,"}
                                         </h2>
                                         <button 
                                             onClick={() => setIsBangla(!isBangla)}
-                                            className="px-4 py-2 bg-rose-100 hover:bg-rose-200 text-rose-700 rounded-full transition-colors text-sm font-semibold shadow-sm"
+                                            className="px-4 py-2 bg-rose-100 hover:bg-rose-200 text-rose-700 rounded-full transition-colors text-sm font-semibold shadow-sm flex items-center gap-2"
                                         >
+                                            <FaLanguage className="text-lg" />
                                             {isBangla ? "Read in English" : "বাংলায় পড়ুন"}
                                         </button>
                                     </motion.div>
                                 )}
 
-                                <div className="prose prose-stone max-w-none font-handwriting text-xl md:text-2xl leading-loose text-stone-800 flex-grow overflow-y-auto pr-4 scrollbar-thin scrollbar-thumb-rose-200 scrollbar-track-transparent max-h-[450px]">
+                                {/* Content Area with Dynamic Font */}
+                                <div className={`prose prose-stone max-w-none text-stone-800 flex-grow overflow-y-auto pr-4 scrollbar-thin scrollbar-thumb-rose-200 scrollbar-track-transparent max-h-[450px] ${isBangla ? 'bangla-font text-lg md:text-xl' : 'font-handwriting text-xl md:text-2xl leading-loose'}`}>
                                     <AnimatePresence mode="wait">
                                         <motion.div
                                             key={isBangla ? 'bn' : 'en'}
@@ -181,7 +194,7 @@ const WelcomePage: React.FC<WelcomePageProps> = ({ onContinue }) => {
                                             ))}
                                             {showContent && (
                                                 <div className="mt-8 text-right">
-                                                    <p className="text-rose-500 font-bold text-2xl">~ Forever Yours</p>
+                                                    <p className={`text-rose-500 font-bold ${isBangla ? 'bangla-font text-xl' : 'text-2xl'}`}>~ Forever Yours</p>
                                                 </div>
                                             )}
                                         </motion.div>
