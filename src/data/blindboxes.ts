@@ -1,53 +1,66 @@
-// Blind box data - Customize the names, descriptions, and contents!
-// All boxes appear mysterious until clicked. She discovers what's inside only after selecting!
-export interface BlindBox {
-    id: number;
-    name: string;
-    emoji: string;
-    description: string;
-    color: string;
-    mysteryLabel: string;
-}
-
-export const blindBoxes: BlindBox[] = [
+export const blindBoxes = [
     {
         id: 1,
-        name: "Box of Kisses",
+        mysteryLabel: "Box One",
+        name: "One Special Kiss",
         emoji: "💋",
-        description: "A thousand kisses saved just for you",
-        color: "from-pink-400 to-rose-500",
-        mysteryLabel: "Mystery Box #1",
+        description: "A very special, passionate, and unforgettable kiss just for you.",
+        color: "from-rose-500 to-pink-600"
     },
     {
         id: 2,
-        name: "Future Plans",
-        emoji: "🌟",
-        description: "Our dreams and adventures yet to come",
-        color: "from-amber-400 to-orange-500",
-        mysteryLabel: "Mystery Box #2",
+        mysteryLabel: "Box Two",
+        name: "A Sweet Kiss",
+        emoji: "😚",
+        description: "A gentle and loving normal kiss to make you smile.",
+        color: "from-purple-500 to-indigo-600"
     },
     {
         id: 3,
-        name: "Secret Promises",
-        emoji: "🤫",
-        description: "Whispered promises only we know",
-        color: "from-purple-400 to-violet-500",
-        mysteryLabel: "Mystery Box #3",
+        mysteryLabel: "Box Three",
+        name: "A Cute Hug",
+        emoji: "🫂",
+        description: "A warm, tight, and adorable hug to make you feel safe.",
+        color: "from-blue-500 to-cyan-600"
     },
     {
         id: 4,
-        name: "Warm Hugs",
-        emoji: "🤗",
-        description: "The warmest hugs to brighten your day",
-        color: "from-love-500 to-love-600",
-        mysteryLabel: "Mystery Box #4",
+        mysteryLabel: "Box Four",
+        name: "Lap Rest & Hair Strokes",
+        emoji: "💆‍♀️",
+        description: "Resting your head on my lap for 2 minutes while I gently stroke your hair.",
+        color: "from-emerald-400 to-teal-600"
     },
     {
         id: 5,
-        name: "Love Letters",
-        emoji: "💌",
-        description: "Unspoken words written from my heart",
-        color: "from-red-400 to-pink-500",
-        mysteryLabel: "Mystery Box #5",
+        mysteryLabel: "Box Five",
+        name: "Lots of Kisses",
+        emoji: "😘",
+        description: "Showering your beautiful face with endless, sweet kisses.",
+        color: "from-red-500 to-rose-700"
     },
+    {
+        id: 6,
+        mysteryLabel: "Box Six",
+        name: "Resting on My Chest",
+        emoji: "❤️",
+        description: "Lying down peacefully with your head resting on my chest.",
+        color: "from-amber-400 to-orange-500"
+    },
+    {
+        id: 7,
+        mysteryLabel: "Box Seven",
+        name: "One Wish Granted",
+        emoji: "✨",
+        description: "You can ask for anything you want, and I will make it come true.",
+        color: "from-fuchsia-500 to-purple-600"
+    },
+    {
+        id: 8,
+        mysteryLabel: "Box Eight",
+        name: "Playful Punishments",
+        emoji: "🥊",
+        description: "You get a free pass to playfully hit me and take out all your cute anger!",
+        color: "from-violet-500 to-fuchsia-700"
+    }
 ];
