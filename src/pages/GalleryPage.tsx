@@ -9,7 +9,14 @@ interface GalleryPageProps {
 }
 
 // Supabase-e banano 5'ta folder-er hoboho nam ekhane dibe
-const FOLDERS = ['nature', 'events', 'portraits', 'travel', 'random'];
+// Tomar Supabase er asol 5 ta folder er nam
+const FOLDERS = [
+    'Her Little World',
+    'Little Surprises',
+    'My Beautiful Moharani',
+    'Our Forever Moments',
+    'Some cute activity'
+];
 
 const GalleryPage: React.FC<GalleryPageProps> = ({ onBack }) => {
     const [activeFolder, setActiveFolder] = useState<string>(FOLDERS[0]);
