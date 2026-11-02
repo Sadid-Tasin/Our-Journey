@@ -141,3 +141,99 @@ Now go drink some water and take care of yourself, because I need you around for
 
 With all my heart and every beat it takes,
 Forever Yours ❤️`;
+
+// ===== PASTE THIS AT THE VERY BOTTOM OF content.ts (do not delete anything above) =====
+// Edit all the text below with your own personal words, names and inside jokes.
+ 
+export const bossProfile = {
+    emoji: "👑",
+    name: "HER NAME",
+    title: "The Final Boss, Undefeated Since Day 1",
+    stats: [
+        { label: "Beauty", value: 100 },
+        { label: "Kindness", value: 100 },
+        { label: "Smile Damage to My Heart", value: 99 },
+        { label: "Cuteness When Angry", value: 97 },
+    ],
+    moves: [
+        { label: "Special Move", text: "Smiles once and I forget everything" },
+        { label: "Weakness", text: "My hugs and chocolate" },
+        { label: "Ultimate Power", text: "Understanding me without a single word" },
+    ],
+    badges: [
+        "🏆 Made me smile 1000 times",
+        "💌 Best text replies",
+        "🌙 Late night listener",
+        "🤗 Hug champion",
+        "✨ My favourite person",
+    ],
+};
+ 
+export const reasonsJar = [
+    "The way you laugh at your own jokes before finishing them",
+    "You care for everyone so deeply",
+    "You make ordinary days feel special",
+    "Your voice is my favourite sound",
+    "You believe in me even when I don't",
+    "You are the calm in my chaos",
+    "Because you are simply you",
+];
+ 
+export const openWhen = [
+    {
+        id: 1,
+        emoji: "😢",
+        title: "Open when you are sad",
+        message:
+            "Hey, it's okay. Take a deep breath. I am right here, always. You are stronger than this day, and I love you more than any bad mood.",
+    },
+    {
+        id: 2,
+        emoji: "🌙",
+        title: "Open when you can't sleep",
+        message:
+            "Close your eyes. Imagine me holding your hand. Everything can wait till morning. Goodnight, my love.",
+    },
+    {
+        id: 3,
+        emoji: "🥺",
+        title: "Open when you miss me",
+        message:
+            "I miss you too, probably more. Look at the sky, we are under the same one. See you soon.",
+    },
+    {
+        id: 4,
+        emoji: "💪",
+        title: "Open when you doubt yourself",
+        message:
+            "You are smarter, braver and more amazing than you think. I have seen it. Believe me, I am always right (about you).",
+    },
+    {
+        id: 5,
+        emoji: "😊",
+        title: "Open when you need a smile",
+        message:
+            "Remember our silly moment? (Write your inside joke here.) Now smile. Yes, that one. Perfect.",
+    },
+];
+ 
+export const loveCoupons = [
+    { id: 1, emoji: "🍫", text: "1 chocolate surprise, anytime" },
+    { id: 2, emoji: "📞", text: "1 late night call, no questions asked" },
+    { id: 3, emoji: "😘", text: "1 forehead kiss, redeemable anytime" },
+    { id: 4, emoji: "🍽️", text: "1 date night, you choose everything" },
+    { id: 5, emoji: "🤗", text: "1 unlimited hug, no time limit" },
+];
+ 
+export const quizQuestions = [
+    { q: "Who said I love you first?", options: ["Me", "You", "Both at once"], answer: 0 },
+    { q: "What is my favourite thing about you?", options: ["Your smile", "Your heart", "Everything"], answer: 2 },
+    { q: "Who loves the other more?", options: ["You", "Me", "Impossible to measure"], answer: 2 },
+];
+ 
+export const quizResults = [
+    { emoji: "😜", text: "Hmm... we need more dates to fix this" },
+    { emoji: "💕", text: "Pretty good! You know me well" },
+    { emoji: "👑", text: "Perfect score! You are officially the Final Boss" },
+];
+ 
