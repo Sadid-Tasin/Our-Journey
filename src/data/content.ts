@@ -16,39 +16,52 @@ I love you more than words on any screen could ever say.
 
 Forever and always yours. 💕`;
 
+// File: src/data/content.ts
+
 export const messages = [
     {
         id: 1,
-        title: "Why I Love You",
-        content: "I love you because of the way you make me feel when I'm with you. Your smile lights up my darkest days, and your laughter is the sweetest sound I've ever heard. You make me want to be a better person every single day.",
-        emoji: "💖",
+        title: "Why I love you",
+        emoji: "❤️",
+        content: "I love you because you are different from everyone else. I have never been attracted to someone who is reckless or careless about relationships. I have always wanted someone in my life whom I would never have to worry about. Someone who would give me peace of mind, someone I could trust without a second thought. Someone I could believe in, knowing that even if you were surrounded by thousands of people and had countless better options, you would still choose to come back to me. Someone whose heart could never be distracted by anything or anyone else. Someone who would embrace my parents as their own and treat my family like theirs. And I found all of that in you. Not just these things, but so much more than I had ever imagined. Perhaps that's why I love you the way I do...",
+        banglaContent: "আমি তোমাকে ভালবাসি কারণ তুমি বাকি সবার মতো না। আমার বাকিদের মতো উচ্ছৃঙ্খল কাউকে পছন্দ না। আমি সবসময় এমন কাউকে আমার জীবনে চাইতাম যেন আমার তাকে নিয়ে কখনও ভাবতে না হয়। এমন ১ তা মানুষকে চাইতাম যে যাকে নিয়ে আমি সবসময় নিশ্চিন্ত থাকতে পারব, এই বিশ্বাস টা করতে পারব যে আমি যদি তাঁকে হাজারো ভিড় এর মধ্যে ভালো অপশন এর মধ্যেও ছেড়ে দে সে ঠিক আমার কাছেই আসবে, কোনও কিছু তাকে মন নষ্ট করতে পারবে না, সে আমার বাবা মা কে নিজের বাবা মা এর মতো করে নিজের পরিবার হিসেবে আগলে রাখবে। এবং এই সব কিছুই আমি তুমার মধ্যে পেয়েছি, শুধু তাই নয় আরও অনেক কিছু অনেক বেশি পেয়েছি, তাই হয়তো ...."
     },
     {
         id: 2,
-        title: "My Promise to You",
-        content: "I promise to stand by you through every storm and celebrate with you in every sunshine. I promise to listen when you need to talk and hold you when words aren't enough. You are my today and all of my tomorrows.",
-        emoji: "🤞",
+        title: "What You Mean to Me",
+        emoji: "✨",
+        content: "Perhaps you are a part of every little thing in my life. There was a time when I was someone who listened to nobody, followed no one's advice, had no discipline, and had no clear direction or purpose in life. I was like a wild horse with no reins, and you were the first person who ever held them. The journey from slowly listening to a few of your words to following almost everything you say has been one of the most beautiful transformations of my life. You are the one person who has the power to hold me back, guide me, and keep me on the right path. In a life where I never allowed anyone to stop me, you became the only person I willingly listen to. And honestly, I wouldn't want it any other way.",
+        banglaContent: "আমার লাইফ এর সম্পূর্ণ টা নিয়েই হয়তো তুমি আছো। কোনও ১ সময় আমি এমন ১ জন মানুষ ছিলাম যে কারো কথা শুনতো না, না করো কিছু মানতো, না জীবনে কোনও ডিসিপ্লিন আছে, না কোনও লক্ষ্য। এই লাগামহীন ঘোড়া এর দড়ি টা প্রথম তুমি ধরেছিলে, একটু একটু কথা মানার থেকে সব কথা মেনে চলা এর যাত্রা টা আসলেও অনেক অপূর্ব ছিলো। আমার জীবনে আমাকে আটকে রাখার 1 মাত্র মানুষ হলে তুমি।"
     },
     {
         id: 3,
-        title: "What You Mean to Me",
-        content: "You are the calm in my chaos, the light in my darkness, and the reason behind my happiest smiles. Before you, I didn't know what it meant to truly love someone. Now, I can't imagine a life without you in it.",
-        emoji: "🌹",
+        title: "Our favourite memory",
+        emoji: "📸",
+        content: "There are so many moments in our relationship that I wish I could preserve forever as beautiful memories. But among all of them, there is one particular day that I know I will remember for the rest of my life. It was Election Day. Manikganj city was unusually quiet and almost empty. That afternoon, we went out for a walk, and for once, it felt like there were no boundaries holding us back. We spent the entire day just being ourselves. From walking around the city and eating ice cream to taking a rickshaw ride a little outside the town, every little moment felt special. And of course, I got both the affection of your hat and a few playful hits from it! Everything about that day was so simple, yet so perfect. No special plans, no expectations, just you and me, enjoying our own little world. It was, without a doubt, one of the happiest and most beautiful days of my life.",
+        banglaContent: "আমাদের জীবনে এমন অনেক মুহূর্ত এই রয়েছে যেগুলো একসাথে মেমোরী হিসেবে রাখতে পারতাম। কিন্তু এতো সবকিছুর মাঝেও ১ তা দিন এর কথা আমার সারাজীবন মনে থাকবে। দিনটি ছিলো নির্বাচন এর দিন। মানিকগঞ্জ শহর তখন অনেকটাই ফাঁকা, আমরা সেখানে বিকেলে হাঁটতে বের হই এবং আমাদের কোনও সীমানা ছিলো না। আমার সেদিন নিজেদের মতো করে দিনটা কাটাই, অনেক ঘোরাঘুরি করি, আইস-ক্রিম খাওয়া থেকে শুরু করে শহর থেকে একট বাইরে রিকশা করে ঘুরতে যাওয়া, তোমার হ্যাট এর আদর এবং তোমার হ্যাট এর মার ২ টাই পাওয়া সব মিলিয়ে দিনটা ছিলো আমার জীবন এর সবথেকে সুন্দর দিন।"
     },
     {
         id: 4,
-        title: "Our Favorite Memory",
-        content: "Remember that evening we spent watching the sunset? Time stopped, and in that moment, nothing else mattered. Just you, me, and the golden sky. I replay that memory whenever I miss you, and it feels like coming home.",
-        emoji: "🌅",
+        title: "Our first adventure",
+        emoji: "🚌",
+        content: "We were always confined to the familiar streets of Manikganj. We probably had so many places we wanted to visit together, but somehow, we never really had the opportunity. Then one day, I finally gathered the courage to take you beyond Manikganj, to explore somewhere a little farther away together. That was where we slowly overcame your fears and finally set out to visit my university. It was our first journey that far together, and it meant so much more to me than you probably realized. One of my little dreams finally came true that day: travelling by bus with you, having you rest your head on my shoulder while we talked along the way. We ate so many things, laughed endlessly, walked around, enjoyed ourselves, and made countless little memories. There was happiness in every little moment. And once again, you gave me another day that I will always remember as one of the happiest days of my life.",
+        banglaContent: "আমরা সবসময় ওই মানিকগঞ্জ শহর এর মধ্যেই আবদ্ধ থাকতাম, হয়তো আইসিসি থাকত অনেক ঘুরতে যাওয়ার কিন্তু কোনও উপায় ছিলো না। কিন্তু ১ দিন সাহস করি মানিকগঞ্জ এর বাইরে বের হওয়ার, শহর এর বাইরে তুমাকে নিয়ে একট দূরে যাওয়ার, একট ঘুরে দেখানোর। সেখান থেকেই তোমার ভেতরের ভয় টা কে শেষ করে আমরা বের হই আমার University ঘুরে দেখার জন্য। ভয় কাটিয়ে আমাদের প্রথম এত দূরের ভ্রমণ, আমার সেই ড্রিম পূরণ হওয়া যে আমরা বাস এ যাব এবং তুমি আমার কাঁধে মাথা রেখে গল্প করতে করতে যাব। অনেক কিছু খাবো, অনেক হাঁসি, মজা এবং আনন্দ এর মধ্যে দিয়ে দিনটা আমাদের মতো করে কাটাতে এবং সবকিছুর সাথে আবারও তুমি আমাকে আমার জীবনের আনন্দময় ১ দিন উপহার দিলে।"
     },
     {
         id: 5,
-        title: "A Little Secret",
-        content: "Every time you catch me staring at you, I'm not just looking — I'm memorizing. The way your eyes crinkle when you laugh, the way you tilt your head when you're thinking. I'm storing every detail because you are my favorite view.",
-        emoji: "🤫",
+        title: "My promise to you",
+        emoji: "💍",
+        content: "I know, Jannat, that I have hurt you many times throughout our relationship. I have broken your heart in ways that may never be completely forgiven. Even after you gave me chance after chance, I kept making one mistake after another. I failed to keep my own promises, and I know how much that must have hurt you. That's why I have made a promise to myself. I want to do everything within my ability to make you happy, to do the little things you love, and to stay away from the things that hurt or upset you. I promise you that after we get married, I will never let you feel alone in any difficult situation. I will never allow anyone to disrespect you or make you feel less valued. Your happiness, your peace, your responsibilities, and your protection will always matter to me. I want to be the person you can depend on, the person who stands beside you through every difficulty, and the person who makes you feel loved and protected every single day. Taking care of you will never be a burden or an obligation to me. It will always be something I do with love. And I promise to fulfil that responsibility until my very last breath.",
+        banglaContent: "আমি জানি জান্নাত আমি জীবনে তোমাকে অনেকবার অনেকভাবে কষ্ট দিয়েছি, মন ভেঙেছি যার কখনও মাফ বা ক্ষমা হয় না। তুমি আমাকে বার বার সুযোগ দেওয়ার পর ও আমি ১ এর পর ১ ভুল করেই গেছি, নিজেরকথা কখনোই রাখতে পারি নাই। তাই আমি নিজের প্রতি নিজে প্রতিজ্ঞা করেছি যে আমি আমার যতটুকু সম্ভব তোমার যে কাজগুলো বেশি ভালো লাগে সেগুলো করার। তোমাকে সবসময় খুশি রাখার। তোমার অপছন্দের কাজ গুলো থেকে দূরে সোর যাওয়ার। আমি তোমাকে কথা দিচ্ছি যে বিয়ের পরে তুমাকে কখনও করো থেকে কষ্ট পাইতে দিবনা, তুমাকে কিছু বলার সাহস বা স্পর্ধা তাও কাউকে দিবনা, তোমার সব দায়িত্ব আমার এবং ভালোবেসে আগলে রাখার দায়িত্ব তাও আমারই। এবং আমি আমার দায়িত্ব আমার শেষ নিঃশ্বাস পর্যন্ত পালন করবো।"
     },
+    {
+        id: 6,
+        title: "A little secret",
+        emoji: "🤫",
+        content: "There is probably no secret in my life that you don't already know, my queen. You know almost everything about me, every little detail, every thought, and every part of my life. The truth is, you are the only person in my life with whom I can share absolutely everything. I tell you whatever is on my mind because keeping things inside without sharing them with you never really gives me peace. I feel relieved only when I have told you everything. That's why there is nothing in my life that I intentionally hide from you. But now, if there is any little secret in your life that I still don't know about, this is your chance to tell me. You can share it right here, my queen. ❤️",
+        banglaContent: "আমার জীবনে এমন কোনও secret নেই যা তুমি জানো না মহারানি। আমার জীবনের সকল কিছু তুমি জানো, সব কিছু। আসলে আমার জীবনে তুমি ছাড়া আর কেউ নেই যার সাথে আমি সব কিছু বলতে পারব। তাই আমায় আমার সব মনের কথা তুমাকেই বলি, যত পর্যন্ত না বলতে পারি আমি শান্তি পাই না। তাই আমার জীবনে তুমার থেকে কিছু লুকানো নাই। তবে তুমার জীবনে যদি এমন কোনও secret থাকে যেইটা আমি জানি না এখনও, তাহলে সেইটা এইখানে বলতে পারো :"
+    }
 ];
-
 export const wishes = [
     {
         id: 1,
