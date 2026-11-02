@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FaArrowLeft, FaStar, FaPaperPlane, FaMagic } from 'react-icons/fa';
+import { FaArrowLeft, FaStar, FaPaperPlane, FaMagic, FaTrash } from 'react-icons/fa';
 
-// Adding the new wishes directly into the component's initial state
-const enhancedWishes = [
+// Initial wishes data
+const initialEnhancedWishes = [
     {
         id: 'new-1',
         wish: "In Sha Allah, one day we will hold hands and visit the House of Allah together to perform Hajj. This is my biggest wish for us.",
@@ -20,32 +20,32 @@ const enhancedWishes = [
         emoji: "🌈",
     },
     {
-        id: 1,
+        id: '1',
         wish: "I wish we could travel the world together, collecting memories in every city",
         emoji: "✈️",
     },
     {
-        id: 2,
+        id: '2',
         wish: "I wish for more lazy mornings with you, where time stands still",
         emoji: "☀️",
     },
     {
-        id: 3,
+        id: '3',
         wish: "I wish to grow old with you, holding hands on a porch somewhere peaceful",
         emoji: "🏡",
     },
     {
-        id: 4,
+        id: '4',
         wish: "I wish you could see yourself through my eyes — you'd understand why I'm so in love",
         emoji: "👀",
     },
     {
-        id: 5,
+        id: '5',
         wish: "I wish for a lifetime of your laughter, your warmth, and your love",
         emoji: "💫",
     },
     {
-        id: 6,
+        id: '6',
         wish: "I wish to be the reason you smile every single day",
         emoji: "😊",
     },
@@ -56,10 +56,23 @@ interface WishesPageProps {
 }
 
 const WishesPage: React.FC<WishesPageProps> = ({ onBack }) => {
-    const [wishes, setWishes] = useState(enhancedWishes);
+    // Check localStorage first, if empty, load initial wishes
+    const [wishes, setWishes] = useState(() => {
+        const savedWishes = localStorage.getItem('our_special_wishes');
+        if (savedWishes) {
+            return JSON.parse(savedWishes);
+        }
+        return initialEnhancedWishes;
+    });
+
     const [newWish, setNewWish] = useState('');
     const [isWishing, setIsWishing] = useState(false);
     const [backgroundStars, setBackgroundStars] = useState<{ id: number; left: string; top: string; size: number; duration: number; delay: number }[]>([]);
+
+    // Save to localStorage whenever wishes array changes
+    useEffect(() => {
+        localStorage.setItem('our_special_wishes', JSON.stringify(wishes));
+    }, [wishes]);
 
     useEffect(() => {
         const stars = Array.from({ length: 50 }).map((_, i) => ({
@@ -90,6 +103,12 @@ const WishesPage: React.FC<WishesPageProps> = ({ onBack }) => {
             setNewWish('');
             setIsWishing(false);
         }, 1500);
+    };
+
+    // Function to delete a wish
+    const handleDeleteWish = (idToDelete: string) => {
+        const updatedWishes = wishes.filter((w: any) => w.id !== idToDelete);
+        setWishes(updatedWishes);
     };
 
     return (
@@ -221,7 +240,7 @@ const WishesPage: React.FC<WishesPageProps> = ({ onBack }) => {
                     <div className="lg:col-span-8 order-1 lg:order-2">
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <AnimatePresence mode="popLayout">
-                                {wishes.map((wish, index) => (
+                                {wishes.map((wish: any, index: number) => (
                                     <motion.div
                                         key={wish.id}
                                         initial={{ opacity: 0, y: 50, scale: 0.8 }}
@@ -237,15 +256,23 @@ const WishesPage: React.FC<WishesPageProps> = ({ onBack }) => {
                                         className={`group relative bg-white/5 backdrop-blur-md rounded-2xl p-6 border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all duration-300 shadow-lg hover:shadow-purple-500/20 ${(index % 3 === 0 && index !== 0) ? 'md:col-span-2 bg-gradient-to-r from-purple-900/40 to-blue-900/40' : ''
                                             }`}
                                     >
-                                        <div className="absolute top-2 right-2 opacity-30 group-hover:opacity-100 transition-opacity">
-                                            <FaStar className="text-amber-300 text-xs" />
+                                        {/* Top right icons (Star & Delete) */}
+                                        <div className="absolute top-3 right-3 flex items-center gap-3 opacity-0 group-hover:opacity-100 transition-opacity">
+                                            <FaStar className="text-amber-300 text-sm" />
+                                            <button 
+                                                onClick={() => handleDeleteWish(wish.id)}
+                                                className="text-red-400 hover:text-red-500 transition-colors cursor-pointer p-1"
+                                                title="Delete Wish"
+                                            >
+                                                <FaTrash className="text-sm" />
+                                            </button>
                                         </div>
 
                                         <div className="flex items-start gap-4">
                                             <div className="text-3xl bg-white/10 w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0 shadow-inner group-hover:scale-110 transition-transform duration-300">
                                                 {wish.emoji}
                                             </div>
-                                            <div className="flex-1">
+                                            <div className="flex-1 mt-1">
                                                 <p className="text-lg text-purple-50 font-light leading-relaxed group-hover:text-white transition-colors">
                                                     {wish.wish}
                                                 </p>
