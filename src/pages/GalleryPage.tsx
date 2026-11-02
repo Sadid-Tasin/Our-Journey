@@ -2,14 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { FaArrowLeft, FaExpand, FaTimes, FaCrown, FaFeather, FaFolder } from 'react-icons/fa';
 import FloatingHearts from '../components/FloatingHearts';
-import { supabase } from '../lib/supabase'; // Path thik ache kina dekhe nibe
+import { supabase } from '../lib/supabase';
 
 interface GalleryPageProps {
     onBack: () => void;
 }
 
-// Supabase-e banano 5'ta folder-er hoboho nam ekhane dibe
-// Tomar Supabase er asol 5 ta folder er nam
+// Supabase-er asol 5 ta folder-er nam
 const FOLDERS = [
     'Her Little World',
     'Little Surprises',
@@ -30,7 +29,7 @@ const GalleryPage: React.FC<GalleryPageProps> = ({ onBack }) => {
             setLoading(true);
             const { data, error } = await supabase
                 .storage
-                .from('gallery-images') // Tomar bucket name
+                .from('Gallery of memories') // Tomar asol bucket name
                 .list(activeFolder, {
                     limit: 200,
                     sortBy: { column: 'name', order: 'asc' },
@@ -40,14 +39,14 @@ const GalleryPage: React.FC<GalleryPageProps> = ({ onBack }) => {
                 console.error('Error fetching images:', error);
                 setImages([]);
             } else if (data) {
-                // Placeholder bad deya (TypeScript 'any' type error fixed)
+                // Placeholder bad deya
                 const validFiles = data.filter((file: any) => file.name !== '.emptyFolderPlaceholder');
                 
-                // Public URL generate kora (TypeScript 'any' type error fixed)
+                // Public URL generate kora
                 const urls = validFiles.map((file: any) => {
                     const { data: publicUrlData } = supabase
                         .storage
-                        .from('gallery-images')
+                        .from('Gallery of memories') // Tomar asol bucket name
                         .getPublicUrl(`${activeFolder}/${file.name}`);
                     return publicUrlData.publicUrl;
                 });
@@ -132,7 +131,7 @@ const GalleryPage: React.FC<GalleryPageProps> = ({ onBack }) => {
                             }`}
                         >
                             <FaFolder className={activeFolder === folder ? 'text-white' : 'text-rose-400'} />
-                            <span className="capitalize">{folder}</span>
+                            <span>{folder}</span>
                         </button>
                     ))}
                 </div>
