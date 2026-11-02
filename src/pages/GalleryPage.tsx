@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { FaArrowLeft, FaExpand, FaTimes, FaCrown, FaFeather, FaFolder } from 'react-icons/fa';
 import FloatingHearts from '../components/FloatingHearts';
-import { supabase } from '../lib/supabase'; // Path thik ache kina dekhe nibe
+import { supabase } from '../../lib/supabase'; // Path thik ache kina dekhe nibe
 
 interface GalleryPageProps {
     onBack: () => void;
@@ -33,11 +33,11 @@ const GalleryPage: React.FC<GalleryPageProps> = ({ onBack }) => {
                 console.error('Error fetching images:', error);
                 setImages([]);
             } else if (data) {
-                // Placeholder bad deya
-                const validFiles = data.filter(file => file.name !== '.emptyFolderPlaceholder');
+                // Placeholder bad deya (TypeScript 'any' type error fixed)
+                const validFiles = data.filter((file: any) => file.name !== '.emptyFolderPlaceholder');
                 
-                // Public URL generate kora
-                const urls = validFiles.map(file => {
+                // Public URL generate kora (TypeScript 'any' type error fixed)
+                const urls = validFiles.map((file: any) => {
                     const { data: publicUrlData } = supabase
                         .storage
                         .from('gallery-images')
