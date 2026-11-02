@@ -147,7 +147,7 @@ Forever Yours ❤️`;
  
 export const bossProfile = {
     emoji: "👑",
-    name: "HER NAME",
+    name: "Jannatul Fardusi Tasin",
     title: "The Final Boss, Undefeated Since Day 1",
     stats: [
         { label: "Beauty", value: 100 },
@@ -161,10 +161,10 @@ export const bossProfile = {
         { label: "Ultimate Power", text: "Understanding me without a single word" },
     ],
     badges: [
-        "🏆 Made me smile 1000 times",
+        "🏆 Made me smile infinity(∞) times",
         "💌 Best text replies",
         "🌙 Late night listener",
-        "🤗 Hug champion",
+        "🤗 Cuteness overloaded",
         "✨ My favourite person",
     ],
 };
@@ -192,7 +192,7 @@ export const openWhen = [
         emoji: "🌙",
         title: "Open when you can't sleep",
         message:
-            "Close your eyes. Imagine me holding your hand. Everything can wait till morning. Goodnight, my love.",
+            "Close your eyes. Imagine yourself resting your head on my chest. Everything can wait till morning. Goodnight, Moharani🥰🥰🥰🥰🥰🥰🥰🥰🥰🥰🥰🥰🥰🥰🥰🥰🥰🥰🥰🥰🥰🥰🥰🌹🌹🌹🌹🌹🌹🌹🌹🌹🌹🌹🌹🌹🌹🌹🌹🌹🌹🌹🥰🥰🥰🥰🥰🥰🥰🥰🥰🥰🥰🥰🥰🥰🥰🥰🥰🥰🥰🥰🥰🥰🥰.",
     },
     {
         id: 3,
@@ -213,7 +213,7 @@ export const openWhen = [
         emoji: "😊",
         title: "Open when you need a smile",
         message:
-            "Remember our silly moment? (Write your inside joke here.) Now smile. Yes, that one. Perfect.",
+            "Remember our private tuition days at Sobur Sir's place? We were supposed to focus on studying, but somehow, we always ended up stealing glances at each other. Honestly, you were my favourite distraction. ❤️.",
     },
 ];
  
@@ -221,7 +221,7 @@ export const loveCoupons = [
     { id: 1, emoji: "🍫", text: "1 chocolate surprise, anytime" },
     { id: 2, emoji: "📞", text: "1 late night call, no questions asked" },
     { id: 3, emoji: "😘", text: "1 forehead kiss, redeemable anytime" },
-    { id: 4, emoji: "🍽️", text: "1 date night, you choose everything" },
+    { id: 4, emoji: "🍽️", text: "1 day with you, you choose everything" },
     { id: 5, emoji: "🤗", text: "1 unlimited hug, no time limit" },
 ];
  
@@ -236,4 +236,70 @@ export const quizResults = [
     { emoji: "💕", text: "Pretty good! You know me well" },
     { emoji: "👑", text: "Perfect score! You are officially the Final Boss" },
 ];
- 
+
+export const blindBoxes = [
+    {
+        id: 1,
+        mysteryLabel: "Box One",
+        name: "One Special Kiss",
+        emoji: "💋",
+        description: "A very special, passionate, and unforgettable kiss just for you.",
+        color: "from-rose-500 to-pink-600"
+    },
+    {
+        id: 2,
+        mysteryLabel: "Box Two",
+        name: "A Sweet Kiss",
+        emoji: "😚",
+        description: "A gentle and loving normal kiss to make you smile.",
+        color: "from-purple-500 to-indigo-600"
+    },
+    {
+        id: 3,
+        mysteryLabel: "Box Three",
+        name: "A Cute Hug",
+        emoji: "🫂",
+        description: "A warm, tight, and adorable hug to make you feel safe.",
+        color: "from-blue-500 to-cyan-600"
+    },
+    {
+        id: 4,
+        mysteryLabel: "Box Four",
+        name: "Lap Rest & Hair Strokes",
+        emoji: "💆‍♀️",
+        description: "Resting your head on my lap for 2 minutes while I gently stroke your hair.",
+        color: "from-emerald-400 to-teal-600"
+    },
+    {
+        id: 5,
+        mysteryLabel: "Box Five",
+        name: "Lots of Kisses",
+        emoji: "😘",
+        description: "Showering your beautiful face with endless, sweet kisses.",
+        color: "from-red-500 to-rose-700"
+    },
+    {
+        id: 6,
+        mysteryLabel: "Box Six",
+        name: "Resting on My Chest",
+        emoji: "❤️",
+        description: "Lying down peacefully with your head resting on my chest.",
+        color: "from-amber-400 to-orange-500"
+    },
+    {
+        id: 7,
+        mysteryLabel: "Box Seven",
+        name: "One Wish Granted",
+        emoji: "✨",
+        description: "You can ask for anything you want, and I will make it come true.",
+        color: "from-fuchsia-500 to-purple-600"
+    },
+    {
+        id: 8,
+        mysteryLabel: "Box Eight",
+        name: "Playful Punishments",
+        emoji: "🥊",
+        description: "You get a free pass to playfully hit me and take out all your cute anger!",
+        color: "from-violet-500 to-fuchsia-700"
+    }
+];
